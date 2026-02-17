@@ -8,5 +8,7 @@ import { TaskList } from './entities/task-list.entity';
   imports : [TypeOrmModule.forFeature([TaskList])],
   controllers: [TaskListsController],
   providers: [TaskListsService],
+  exports: [TaskListsService],
+  
 })
 export class TaskListsModule {}

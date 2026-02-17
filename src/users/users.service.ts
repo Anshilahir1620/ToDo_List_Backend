@@ -33,4 +33,9 @@ export class UsersService {
   remove(UserID: number) {
     return this.UserRepo.delete(UserID);
   }
+
+  findByUsername(UserName: string) {
+    return this.UserRepo.findOne({where: {UserName},});
+  }
+
 }

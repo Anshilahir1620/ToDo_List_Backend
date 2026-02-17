@@ -8,11 +8,13 @@ import { ProjectsModule } from './projects/projects.module';
 import { TaskListsModule } from './task-lists/task-lists.module';
 import { TasksModule } from './tasks/tasks.module';
 import { TaskCommentsModule } from './task-comments/task-comments.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
 
     TypeOrmModule.forRootAsync({
@@ -26,7 +28,7 @@ import { TaskCommentsModule } from './task-comments/task-comments.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         autoLoadEntities: true,
-        synchronize: false, // dev only
+        synchronize: false, 
       }),
     }),
 
@@ -39,6 +41,8 @@ import { TaskCommentsModule } from './task-comments/task-comments.module';
     TasksModule,
 
     TaskCommentsModule,
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

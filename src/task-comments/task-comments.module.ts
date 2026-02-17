@@ -8,5 +8,6 @@ import { TaskComment } from './entities/task-comment.entity';
   imports : [TypeOrmModule.forFeature([TaskComment])],
   controllers: [TaskCommentsController],
   providers: [TaskCommentsService],
+  exports: [TaskCommentsService],
 })
 export class TaskCommentsModule {}
