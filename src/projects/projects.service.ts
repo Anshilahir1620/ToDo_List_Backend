@@ -10,29 +10,29 @@ export class ProjectsService {
 
   constructor(
     @InjectRepository(Project)
-    private readonly ProjectRepo : Repository<Project>
-  ){ }
+    private readonly ProjectRepo: Repository<Project>
+  ) { }
 
 
 
   create(createProjectDto: CreateProjectDto) {
-    return this.ProjectRepo.save(createProjectDto);
+    const project = this.ProjectRepo.create(createProjectDto);
+    return this.ProjectRepo.save(project);
   }
 
   findAll() {
     return this.ProjectRepo.find();
   }
 
-  findOne(ProjectID: number) {
-    return this.ProjectRepo.findOneBy({ProjectID})
+  findOne(projectId: number) {
+    return this.ProjectRepo.findOneBy({ projectId });
   }
 
-  update(ProjectID: number, updateProjectDto: UpdateProjectDto) {
-    return this.ProjectRepo.update(ProjectID,updateProjectDto)
+  update(projectId: number, updateProjectDto: UpdateProjectDto) {
+    return this.ProjectRepo.update(projectId, updateProjectDto);
   }
 
-  remove(ProjectID: number) {
-    return this.ProjectRepo.delete(ProjectID);
-    
+  remove(projectId: number) {
+    return this.ProjectRepo.delete(projectId);
   }
 }

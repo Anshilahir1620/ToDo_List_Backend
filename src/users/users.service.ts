@@ -10,32 +10,38 @@ export class UsersService {
 
   constructor(
     @InjectRepository(User)
-    private readonly UserRepo: Repository<User>,
-  ) { }
+    private readonly userRepo: Repository<User>,
+  ) {}
 
+  async create(dto: CreateUserDto) {
+    const user = this.userRepo.create({
+      username: dto.username,
+      email: dto.email,
+      passwordHash: dto.password, // ⚠️ plain password
+    });
 
-  create(createStudentDto: CreateUserDto) {
-    return this.UserRepo.save(createStudentDto);
+    return this.userRepo.save(user);
   }
 
   findAll() {
-    return this.UserRepo.find();
+    return this.userRepo.find();
   }
 
-  findOne(UserID: number) {
-    return this.UserRepo.findOneBy({ UserID });
+  findOne(userId: number) {
+    return this.userRepo.findOneBy({ userId });
   }
 
-  update(id: number, data: Partial<User>) {
-    return this.UserRepo.update(id, data);
+  update(userId: number, data: Partial<User>) {
+    return this.userRepo.update(userId, data);
   }
 
-  remove(UserID: number) {
-    return this.UserRepo.delete(UserID);
+  remove(userId: number) {
+    return this.userRepo.delete(userId);
   }
 
-  findByUsername(UserName: string) {
-    return this.UserRepo.findOne({where: {UserName},});
+  findByUsername(username: string) {
+    return this.userRepo.findOne({
+      where: { username },
+    });
   }
-
 }

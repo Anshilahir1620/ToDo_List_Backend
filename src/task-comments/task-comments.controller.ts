@@ -23,7 +23,10 @@ export class TaskCommentsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskCommentDto: UpdateTaskCommentDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTaskCommentDto: UpdateTaskCommentDto,
+  ) {
     return this.taskCommentsService.update(+id, updateTaskCommentDto);
   }
 
@@ -32,3 +35,4 @@ export class TaskCommentsController {
     return this.taskCommentsService.remove(+id);
   }
 }
+

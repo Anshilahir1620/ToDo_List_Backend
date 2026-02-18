@@ -11,11 +11,11 @@ export class TaskCommentsService {
   constructor(
     @InjectRepository(TaskComment)
     private readonly TaskCommentRepo: Repository<TaskComment>
-  ){}
+  ) { }
 
   create(createTaskCommentDto: CreateTaskCommentDto) {
-
-    return this.TaskCommentRepo.save(createTaskCommentDto);
+    const comment = this.TaskCommentRepo.create(createTaskCommentDto);
+    return this.TaskCommentRepo.save(comment);
   }
 
   findAll() {
@@ -23,19 +23,16 @@ export class TaskCommentsService {
     return this.TaskCommentRepo.find();
   }
 
-  findOne(CommentID: number) {
-    return this.TaskCommentRepo.findOneBy({CommentID});
+  findOne(commentId: number) {
+    return this.TaskCommentRepo.findOneBy({ commentId });
   }
 
-  update(CommentID: number, updateTaskCommentDto: UpdateTaskCommentDto) {
-
-    return this.TaskCommentRepo.update(CommentID,updateTaskCommentDto)
-
+  update(commentId: number, updateTaskCommentDto: UpdateTaskCommentDto) {
+    return this.TaskCommentRepo.update(commentId, updateTaskCommentDto);
   }
 
-  remove(CommentID: number) {
-
-    return this.TaskCommentRepo.delete(CommentID);
-
+  remove(commentId: number) {
+    return this.TaskCommentRepo.delete(commentId);
   }
+
 }

@@ -1,4 +1,12 @@
-import {IsInt,IsNotEmpty,IsOptional,IsString,IsEnum,Min,IsDateString,} from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsEnum,
+  Min,
+  IsDateString,
+} from 'class-validator';
 
 export enum TaskPriority {
   LOW = 'Low',
@@ -6,34 +14,43 @@ export enum TaskPriority {
   HIGH = 'High',
 }
 
+export enum TaskStatus {
+  PENDING = 'Pending',
+  COMPLETED = 'Completed',
+}
+
 export class CreateTaskDto {
 
   @IsInt()
   @Min(1)
-  ListID: number;
+  listId: number;
 
   @IsNotEmpty()
   @IsString()
-  Title: string;
+  title: string;
 
   @IsOptional()
   @IsString()
-  Description?: string;
+  description?: string;
 
   @IsOptional()
   @IsEnum(TaskPriority)
-  Priority?: TaskPriority;
+  priority?: TaskPriority;
 
   @IsOptional()
   @IsDateString()
-  DueDate?: string;
+  dueDate?: string;
 
   @IsOptional()
   @IsInt()
   @Min(1)
-  AssignedTo?: number;
+  assignedTo?: number;
+
+  @IsOptional()
+  @IsEnum(TaskStatus)
+  Status?: TaskStatus;
 
   @IsInt()
   @Min(1)
-  CreatedBy: number;
+  createdBy: number;
 }

@@ -5,14 +5,14 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
-  UserName: string;
+  username: string;
 
   @IsNotEmpty()
   @IsEmail()
-  Email: string;
+  email: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  password: string;   
+  password: string;
 }

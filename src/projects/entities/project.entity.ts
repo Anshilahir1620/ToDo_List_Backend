@@ -11,20 +11,20 @@ import { User } from 'src/users/entities/user.entity';
 @Entity('Projects')
 export class Project {
 
-  @PrimaryGeneratedColumn()
-  ProjectID: number;
+  @PrimaryGeneratedColumn({ name: 'ProjectID' })
+  projectId: number;
 
-  @Column({ length: 100 })
-  ProjectName: string;
+  @Column({ name: 'ProjectName', length: 100 })
+  projectName: string;
 
-  @Column({ length: 255, nullable: true })
-  Description: string;
+  @Column({ name: 'Description', length: 255, nullable: true })
+  description: string;
 
-  @Column()
-  CreatedBy: number;
+  @Column({ name: 'CreatedBy' })
+  createdBy: number;
 
-  @CreateDateColumn({ type: 'datetime' })
-  CreatedAt: Date;
+  @CreateDateColumn({ name: 'CreatedAt', type: 'datetime' })
+  createdAt: Date;
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'CreatedBy' })

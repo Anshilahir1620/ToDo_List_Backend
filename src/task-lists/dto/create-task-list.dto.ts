@@ -1,4 +1,12 @@
+import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
+
 export class CreateTaskListDto {
-  ProjectID: number;
-  ListName: string;
+
+  @IsInt()
+  @Min(1)
+  projectId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  listName: string;
 }

@@ -1,4 +1,11 @@
-import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,JoinColumn,CreateDateColumn,} from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { TaskList } from 'src/task-lists/entities/task-list.entity';
 import { User } from 'src/users/entities/user.entity';
 
@@ -8,47 +15,56 @@ export enum TaskPriority {
   HIGH = 'High',
 }
 
+export enum TaskStatus {
+  PENDING = 'Pending',
+  COMPLETED = 'Completed',
+}
+
 @Entity('Tasks')
 export class Task {
 
-  @PrimaryGeneratedColumn()
-  TaskID: number;
+  @PrimaryGeneratedColumn({ name: 'TaskID' })
+  taskId: number;
 
-  @Column()
-  ListID: number;
+  @Column({ name: 'ListID' })
+  listId: number;
 
-  @Column({ length: 150 })
-  Title: string;
+  @Column({ name: 'Title', length: 150 })
+  title: string;
 
-  @Column({ type: 'text', nullable: true })
-  Description: string;
+  @Column({ name: 'Description', type: 'text', nullable: true })
+  description: string;
 
   @Column({
+    type: 'enum',
+    enum: TaskStatus,
+    default: TaskStatus.PENDING,
+  })
+  Status: TaskStatus;
+
+  @Column({
+    name: 'Priority',
     type: 'enum',
     enum: TaskPriority,
     default: TaskPriority.MEDIUM,
   })
-  Priority: TaskPriority;
+  priority: TaskPriority;
 
-  @Column({ type: 'date', nullable: true })
-  DueDate: Date;
+  @Column({ name: 'DueDate', type: 'date', nullable: true })
+  dueDate: Date;
 
-  @Column({ nullable: true })
-  AssignedTo: number;
+  @Column({ name: 'AssignedTo', nullable: true })
+  assignedTo: number;
 
-  @Column()
-  CreatedBy: number;
+  @Column({ name: 'CreatedBy' })
+  createdBy: number;
 
-  @CreateDateColumn({ type: 'datetime' })
-  CreatedAt: Date;
+  @CreateDateColumn({ name: 'CreatedAt', type: 'datetime' })
+  createdAt: Date;
 
   @ManyToOne(() => TaskList, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'ListID' })
   taskList: TaskList;
-
-  @ManyToOne(() => User, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'AssignedTo' })
-  assignedUser: User;
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'CreatedBy' })

@@ -1,5 +1,16 @@
+import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+
 export class CreateProjectDto {
-  ProjectName: string;
-  Description?: string;
-  CreatedBy: number;
+
+  @IsNotEmpty()
+  @IsString()
+  projectName: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsInt()
+  @Min(1)
+  createdBy: number;
 }

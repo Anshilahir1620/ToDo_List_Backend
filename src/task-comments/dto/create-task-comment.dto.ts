@@ -4,13 +4,13 @@ export class CreateTaskCommentDto {
 
   @IsInt()
   @Min(1)
-  TaskID: number;
+  taskId: number;
 
   @IsInt()
   @Min(1)
-  UserID: number;
+  userId: number;
 
   @IsNotEmpty()
   @IsString()
-  CommentText: string;
+  commentText: string;
 }

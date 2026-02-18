@@ -1,7 +1,4 @@
-
-export class AuthDTo{
-
-    username:string;
-    password:string;
-
+export class AuthDto {
+  username: string;
+  password: string;
 }

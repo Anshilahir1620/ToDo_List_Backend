@@ -8,33 +8,34 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class TaskListsService {
 
-constructor(
-  @InjectRepository(TaskList)
-  private readonly TasklistRepo : Repository<TaskList>
-){}
+  constructor(
+    @InjectRepository(TaskList)
+    private readonly TasklistRepo: Repository<TaskList>
+  ) { }
 
 
   create(createTaskListDto: CreateTaskListDto) {
-    return this.TasklistRepo.save(createTaskListDto)
+    const list = this.TasklistRepo.create(createTaskListDto);
+    return this.TasklistRepo.save(list);
   }
 
   findAll() {
     return this.TasklistRepo.find();
   }
 
-  findOne(ListID: number) {
-    return this.TasklistRepo.findOneBy({ListID})
+  findOne(listId: number) {
+    return this.TasklistRepo.findOneBy({ listId });
   }
 
-
-  update(ListID: number, updateTaskListDto: UpdateTaskListDto) {
-
-    return this.TasklistRepo.update(ListID,updateTaskListDto)
-
+  update(listId: number, updateTaskListDto: UpdateTaskListDto) {
+    return this.TasklistRepo.update(listId, updateTaskListDto);
   }
 
-  remove(ListID:number) {
-
-      return this.TasklistRepo.delete(ListID);
+  remove(listId: number) {
+    return this.TasklistRepo.delete(listId);
   }
+
+  
+
+
 }

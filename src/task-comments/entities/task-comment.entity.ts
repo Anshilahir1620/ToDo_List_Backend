@@ -12,20 +12,20 @@ import { User } from 'src/users/entities/user.entity';
 @Entity('TaskComments')
 export class TaskComment {
 
-  @PrimaryGeneratedColumn()
-  CommentID: number;
+  @PrimaryGeneratedColumn({ name: 'CommentID' })
+  commentId: number;
 
-  @Column()
-  TaskID: number;
+  @Column({ name: 'TaskID' })
+  taskId: number;
 
-  @Column()
-  UserID: number;
+  @Column({ name: 'UserID' })
+  userId: number;
 
-  @Column({ type: 'text' })
-  CommentText: string;
+  @Column({ name: 'CommentText', type: 'text' })
+  commentText: string;
 
-  @CreateDateColumn({ type: 'datetime' })
-  CreatedAt: Date;
+  @CreateDateColumn({ name: 'CreatedAt', type: 'datetime' })
+  createdAt: Date;
 
   @ManyToOne(() => Task, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'TaskID' })

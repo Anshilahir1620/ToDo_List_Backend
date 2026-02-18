@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('tasks')
 export class TasksController {
-  constructor(private readonly tasksService: TasksService) {}
+  constructor(private readonly tasksService: TasksService) { }
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
+  @UseGuards(AuthGuard)
+  create(@Body() createTaskDto: CreateTaskDto, @Req() req) {
+    createTaskDto.createdBy = req.user.userId; // better security
     return this.tasksService.create(createTaskDto);
   }
 
@@ -17,6 +20,19 @@ export class TasksController {
     return this.tasksService.findAll();
   }
 
+  @Get('filter/:type')
+  @UseGuards(AuthGuard)
+  getTasksByFilter(@Param('type') type: string, @Req() req) {
+    const userId = req.user.userId;
+    return this.tasksService.getTasksByFilter(type, userId);
+  }
+
+
+    @UseGuards(AuthGuard)
+  @Get('today')
+  getTodayTasks(@Req() req) {
+    return this.tasksService.getTodayTasks(req.user.userId);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tasksService.findOne(+id);
@@ -31,4 +47,6 @@ export class TasksController {
   remove(@Param('id') id: string) {
     return this.tasksService.remove(+id);
   }
+
+
 }

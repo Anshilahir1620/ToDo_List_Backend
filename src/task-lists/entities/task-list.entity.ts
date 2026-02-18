@@ -1,20 +1,26 @@
-import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,JoinColumn,} from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Project } from 'src/projects/entities/project.entity';
 
 @Entity('TaskLists')
 export class TaskList {
 
-  @PrimaryGeneratedColumn()
-  ListID: number;
+  @PrimaryGeneratedColumn({ name: 'ListID' })
+  listId: number;
 
-  @Column()
-  ProjectID: number;
+  @Column({ name: 'ProjectID' })
+  projectId: number;
 
-  @Column({ length: 100 })
-  ListName: string;
+  @Column({ name: 'ListName', length: 100 })
+  listName: string;
 
-  @Column()
-  Position: number;
+  @Column({ name: 'Position' })
+  position: number;
 
   @ManyToOne(() => Project, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'ProjectID' })
