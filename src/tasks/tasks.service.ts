@@ -11,7 +11,7 @@ export class TasksService {
   constructor(
     @InjectRepository(Task)
     private readonly TaskRepo: Repository<Task>
-  ) {}
+  ) { }
 
   create(dto: CreateTaskDto) {
     const task = this.TaskRepo.create(dto);
@@ -34,6 +34,7 @@ export class TasksService {
     return this.TaskRepo.delete(taskId);
   }
 
+
   async getTasksByFilter(filter: string, userId: number) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -41,12 +42,10 @@ export class TasksService {
     const endToday = new Date(today);
     endToday.setHours(23, 59, 59, 999);
 
-    const nextWeek = new Date(today);
-    nextWeek.setDate(today.getDate() + 7);
-
     const qb = this.TaskRepo.createQueryBuilder('task')
       .where('task.CreatedBy = :userId', { userId });
 
+    // TODAY
     if (filter === 'today') {
       qb.andWhere('task.DueDate BETWEEN :start AND :end', {
         start: today,
@@ -54,16 +53,54 @@ export class TasksService {
       });
     }
 
+    // TOMORROW
     if (filter === 'tomorrow') {
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
-      qb.andWhere('task.DueDate = :tomorrow', { tomorrow });
+      const tomorrowStart = new Date(today);
+      tomorrowStart.setDate(today.getDate() + 1);
+
+      const tomorrowEnd = new Date(tomorrowStart);
+      tomorrowEnd.setHours(23, 59, 59, 999);
+
+      qb.andWhere('task.DueDate BETWEEN :start AND :end', {
+        start: tomorrowStart,
+        end: tomorrowEnd,
+      });
     }
 
     if (filter === 'week') {
+      const nextWeek = new Date(today);
+      nextWeek.setDate(today.getDate() + 7);
+
       qb.andWhere('task.DueDate BETWEEN :today AND :nextWeek', {
         today,
         nextWeek,
+      });
+    }
+
+    if (filter === 'month') {
+      const startOfMonth = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1,
+        0,
+        0,
+        0,
+        0
+      );
+
+      const endOfMonth = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0,
+        23,
+        59,
+        59,
+        999
+      );
+
+      qb.andWhere('task.DueDate BETWEEN :start AND :end', {
+        start: startOfMonth,
+        end: endOfMonth,
       });
     }
 
@@ -74,8 +111,12 @@ export class TasksService {
     const start = new Date();
     start.setHours(0, 0, 0, 0);
 
+    console.log("start date ", start)
+
     const end = new Date();
     end.setHours(23, 59, 59, 999);
+    console.log("end date ", end)
+
 
     const tasks = await this.TaskRepo.find({
       where: {
@@ -92,4 +133,6 @@ export class TasksService {
       completed: tasks.filter(t => t.Status === TaskStatus.COMPLETED),
     };
   }
+
+
 }

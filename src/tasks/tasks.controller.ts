@@ -11,7 +11,7 @@ export class TasksController {
   @Post()
   @UseGuards(AuthGuard)
   create(@Body() createTaskDto: CreateTaskDto, @Req() req) {
-    createTaskDto.createdBy = req.user.userId; // better security
+    createTaskDto.createdBy = req.user.userId; 
     return this.tasksService.create(createTaskDto);
   }
 
@@ -28,11 +28,6 @@ export class TasksController {
   }
 
 
-    @UseGuards(AuthGuard)
-  @Get('today')
-  getTodayTasks(@Req() req) {
-    return this.tasksService.getTodayTasks(req.user.userId);
-  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tasksService.findOne(+id);

@@ -25,6 +25,7 @@ export class Project {
 
   @CreateDateColumn({ name: 'CreatedAt', type: 'datetime' })
   createdAt: Date;
+  
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'CreatedBy' })

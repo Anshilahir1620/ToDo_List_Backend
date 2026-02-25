@@ -17,7 +17,6 @@ export class AuthService {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    // ⚠️ Plain text comparison (TEMP)
     if (user.passwordHash !== password) {
       throw new UnauthorizedException('Invalid username or password');
     }
